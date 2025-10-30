@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <title>Group Management - Team Collaboration Platform</title>
+    <style>
+        /* Basic reset and body styles */
+        body {
+            font-family: "Poppins", sans-serif;
+            background: url('./Images for site/study_theme_wallpaper.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffff; /* White text */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styles */
+        header {
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent white */
+    color: #fff; /* Black text */
+    padding: 15px 20px;
+    display: flex;
+    align-items: center; /* Vertically center items */
+    border-bottom: 4px solid rgba(93, 91, 91, 0.6); /* Darker Lime Green */
+    position: relative; /* For absolute positioning of the back button */
+}
+
+header:hover {
+    background: rgba(0, 0, 0, 0.504) /* Slightly increase opacity on hover */   
+}
+
+.header-center {
+    flex: 1; /* Take up remaining space */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    margin: 0 auto; /* Center the entire block */
+} 
+
+.header-center h1 {
+    margin: 0;
+    font-size: 35px;
+    text-align: center;
+}
+
+
+.header-center nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.header-center nav ul li a {
+    color: #fff; /* Black text */
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.header-center nav ul li a:hover {
+    text-decoration: underline;
+    color: #2008f7;
+}
+
+/* Back Button */
+header .back-button {
+    position: absolute; /* Position the back button absolutely */
+    left: 300px; /* Align to the left */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-decoration: none;
+    font-size: 18px;
+    z-index: 1; /* Ensure it's above other elements */
+}
+
+header .back-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+header .back-button a {
+    color: #fff; /* Set the text color to white */
+    text-decoration: none; /* Remove underline */
+}
+
+header .back-button a:hover {
+    color: #fff; /* Ensure the color stays white on hover */
+}
+
+/* Account Button */
+header .account-button {
+    position: absolute; /* Position the account button absolutely */
+    right: 20px; /* Align to the right */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f39c12;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    z-index: 1; /* Ensure it's above other elements */
+}
+
+header .account-button:hover {
+    background: #d35400; /* Darker orange on hover */
+}
+
+        .header .account-button i {
+            font-size: 18px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar .logo {
+            /* Adjust positioning */
+            position: relative;
+            text-align: left;
+            margin-bottom: 20px; /* Ensure enough spacing below the logo */
+            margin-top: 0;
+        }
+
+        .sidebar .logo img {
+            /* Adjust size and move further left */
+            max-width:290px;
+            max-height: 400px;
+            margin: 0;
+            border-radius: 0;
+            display: block;
+            position: absolute;
+            left: -15px; /* Move image further left */
+            top: 0px; /* Adjusted to create separation from sidebar content */
+        }
+
+        .sidebar .separator {
+            /* Separator line styling */
+            width: 105%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 79px 0; /* Space above and below the separator */
+            left: -100px;
+            
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 25px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a:hover {
+            /* Hover effect for links */
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            background-image: linear-gradient(45deg, #FFE8A2, #70ddee);
+            color: #090404;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a i {
+            font-size: 20px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+
+
+        .account-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.938); /* Adjust background for contrast */
+    color: #05040433;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease color 0.3s ease;
+}
+
+.account-button:hover {
+    background: rgba(0, 0, 0, 0.4);
+    color: #0e0505;
+}
+
+.dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            color: #fff;
+            z-index: 1100;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu .user-info {
+            margin-bottom: 10px;
+        }
+
+        .dropdown-menu .user-info p {
+            margin: 5px 0;
+        }
+
+        .dropdown-menu .role {
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #32cd32; /* Green color */
+    border-radius: 50%;
+    box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32; /* Glowing effect */
+    animation: pulse 1.5s infinite; /* Pulse effect */
+}
+
+/* Keyframes for the glowing pulse */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32;
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 15px #32cd32, 0 0 30px #32cd32;
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32;
+    }
+}
+
+.logout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.8); /* Red color for emphasis */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    display: flex; /* Ensures icon and text align properly */
+    align-items: center;
+    justify-content: center; /* Center-align the icon and text */
+    gap: 8px; /* Space between icon and text */
+}
+
+.logout-button:hover {
+    background-color: rgba(255, 0, 0, 1); /* Darker red on hover */
+}
+
+.logout-button i {
+    font-size: 16px; /* Adjust the size of the icon */
+}
+        
+
+        /* Main section styles */
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        section {
+            background: linear-gradient(135deg, #d6b26c 0%, #f1c27d 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+    margin-right: auto;
+    color: #ffffff;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 120%;
+    max-width: 850px;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+        }
+
+        h2 {
+            color: #ffff; /* Lime Green */
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .group-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.group-avatar {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    user-select: none;
+}
+
+
+        /* Group form styles */
+        .group-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffffff; /* White text */
+        }
+
+        .group-form input[type="text"],
+        .group-form textarea,
+        .group-form select,
+        .group-form button {
+            width: calc(100% - 20px); /* Adjust width for padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ffffff; /* White border */
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+            color: #ffffff; /* White text */
+            transition: border-color 0.3s ease;
+        }
+
+        .group-form input[type="text"]:focus,
+        .group-form textarea:focus,
+        .group-form select:focus {
+            border-color: #fff; /* Lime Green on focus */
+        }
+
+        .group-form button {
+            background-color: #fff; /* Lime Green */
+            color: #000000; /* Black text */
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .group-form button:hover {
+            background-color: rgb(221, 221, 221); /* Darker Lime Green on hover */
+        }
+
+        /* Group list styles */
+        .group-list .group {
+            background-color: #3811941e; /* Darker Gray */
+            color: #ffffff; /* White text */
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffffff; /* White border */
+        }
+
+        .group-list .group h3 {
+            margin-top: 0;
+            color: #fff; /* Lime Green */
+            font-size: 30px;
+        }
+
+        .group-list .group p {
+            margin: 5px 0;
+            color: #ffffff; /* White text */
+        }
+
+        .toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.toggle-label {
+  font-size: 16px;
+}
+
+/* Toggle Switch Styling */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.4s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.toggle-switch input:checked + .slider {
+  background-color: #00c6ff;
+}
+
+.toggle-switch input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+
+        .group-actions {
+            margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; /* spacing between buttons */
+    row-gap: 12px;
+    justify-content: flex-start;
+}
+
+@media (max-width: 600px) {
+    .group-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+
+.group-actions button {
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.group-actions button:hover {
+    background-color: #d35400;
+}
+
+/* Add Member */
+.group-actions button.add-button {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: white;
+}
+.group-actions button.add-button:hover {
+    background: linear-gradient(to right, #0097cc, #0055cc);
+}
+
+/* Transfer Admin */
+.group-actions button.transfer-button {
+    background: linear-gradient(to right, #ffb347, #ffcc33);
+    color: #000;
+}
+.group-actions button.transfer-button:hover {
+    background: linear-gradient(to right, #e6a300, #ffb300);
+}
+
+/* Leave Group */
+.group-actions button.leave-button {
+    background: linear-gradient(to right, #f7971e, #ffd200);
+    color: #000;
+}
+.group-actions button.leave-button:hover {
+    background: linear-gradient(to right, #e68900, #ffc107);
+}
+
+/* Delete Group */
+.group-actions button.delete-button {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+}
+.group-actions button.delete-button:hover {
+    background: linear-gradient(to right, #e60039, #d63031);
+}
+
+
+
+        /* Footer styles */
+        footer {
+            background-color: rgba(255, 255, 255, 0.8); /* Lime Green */
+            color: #000000; /* Black text */
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 2%;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="Dashboard.html">
+                <i class='bx bx-arrow-back'></i>
+                <span>Back to Main Menu</span>
+            </a>
+
+          </div>
+
+        <!-- Centered Title and Navigation Links -->
+        <div class="header-center">
+            <h1>Group Management</h1>
+            <nav>
+                <ul>
+                    <li><a href="#create-group">Create Group</a></li>
+                    <li><a href="#group-list">Group List</a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Account Button -->
+        <div class="account-button" onclick="toggleDropdown()">
+            <i class='bx bxs-user-circle'></i>
+            <span>Account</span>
+        </div>
+    </header>
+    
+    <main>
+        <section id="create-group" class="section">
+            <h2>Create and Manage Groups</h2>
+            <div class="container">
+                <form class="group-form">
+                    <label for="groupName">Group Name:</label>
+                    <input type="text" id="groupName" name="groupName" required>
+        
+                    <label for="groupDescription">Description:</label>
+                    <textarea id="groupDescription" name="groupDescription" rows="3"></textarea>
+        
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
+        </section>
+        
+        <section id="group-list" class="section">
+            <h2>Group List</h2>
+
+            <div class="toggle-wrapper">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="adminFilterToggle">
+                  <span class="slider"></span>
+                </label>
+                <span class="toggle-label">Show only groups I admin</span>
+              </div>
+              
+              <div style="margin: 20px 0; display: flex; justify-content: center;">
+                <input
+                    type="text"
+                    id="groupSearchInput"
+                    placeholder="Search groups by name..."
+                    style="
+                        padding: 10px 15px;
+                        width: 80%;
+                        max-width: 400px;
+                        border-radius: 8px;
+                        border: none;
+                        font-size: 16px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                        outline: none;
+                    "
+                >
+            </div>
+            
+
+            <div class="group-list" id="groupListContainer">
+                <!-- Dynamic groups will appear here -->
+            </div>
+            
+        </section>
+        
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Logo Section -->
+    <div class="logo">
+        <img src="Logo.png" alt="Logo">
+    </div>
+
+    <!-- Separator Line -->
+    <div class="separator"></div>
+
+    <!-- Dashboard Link -->
+    <a href="Dashboard.html">
+        <i class='bx bxs-dashboard'></i>
+        <span>Dashboard</span>
+    </a>
+
+    <!-- Groups Management Link -->
+    <a href="Group-Management.html">
+        <i class='bx bxs-user'></i>
+        <span>Groups</span>
+    </a>
+
+    <!-- Projects Management Link -->
+    <a href="Projects.html">
+        <i class='bx bxs-folder'></i>
+        <span>Projects</span>
+    </a>
+
+    <!-- Tasks Management Link -->
+    <a href="To-Do-List.html">
+        <i class='bx bx-task'></i>
+        <span>Tasks</span>
+    </a>
+
+    <!-- Calendar Link -->
+    <a href="Calendar.html">
+        <i class='bx bx-calendar'></i>
+        <span>Calendar</span>
+    </a>
+
+    <!-- Settings Link -->
+    <a href="settings2.html">
+        <i class='bx bxs-cog'></i>
+        <span>Settings</span>
+    </a>
+</div>
+
+ <!-- Dropdown Menu -->
+ <div class="dropdown-menu" id="dropdown-menu" aria-expanded="false">
+    <div class="user-info">
+        <p>Name: <span id="user-name">John Doe</span></p>
+        <p>Email: <span id="user-email">johndoe@example.com</span></p>
+        <!-- Active Status -->
+        <p class="status">
+            <span class="status-dot"></span> Online
+        </p>
+    </div>
+        <p class="role">Role: <span id="user-role">Admin</span></p>
+        
+         <!-- Log Out Button -->
+         <button class="logout-button" onclick="logout()">
+            <i class='bx bx-log-out'></i> Log Out
+        </button>
+    
+</div>
+    </main>
+    
+
+    <script>
+
+ // Get the header element
+ const header = document.querySelector('header');
+// Store the initial offset of the header
+let initialOffset = header.offsetTop;
+// Function to handle scroll events
+function handleScroll() {
+    // Get the current scroll position
+    const scrollPosition = window.scrollY;
+    // Update the header's top position based on the scroll position
+    header.style.top = `${initialOffset + scrollPosition}px`;
+}
+// Add a scroll event listener to the window
+window.addEventListener('scroll', handleScroll);
+
+
+        // Toggle Dropdown Menu
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown-menu');
+        const isExpanded = dropdown.getAttribute('aria-expanded') === 'true';
+        dropdown.classList.toggle('active');
+        dropdown.setAttribute('aria-expanded', !isExpanded);
+        }
+
+        // Function to fetch and display user profile
+        async function fetchUserProfile() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/user-profile-drop/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Use JWT token for authentication
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user profile');
+        }
+
+        const data = await response.json();
+
+        // Update the dropdown with user data
+        document.getElementById('user-name').textContent = `${data.first_name} ${data.last_name}`;
+        document.getElementById('user-email').textContent = data.email;
+        document.getElementById('user-role').textContent = data.role || 'User'; // Default to 'User' if role is not provided
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+
+        // Display an error message in the dropdown
+        document.getElementById('user-name').textContent = 'Error loading user data';
+        document.getElementById('user-email').textContent = 'Please try again later';
+        document.getElementById('user-role').textContent = 'User'; // Default role
+    }
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', fetchUserProfile);
+
+        // Logout Function
+        function logout() {
+        // Redirect to the login page
+        window.location.href = '/Frontend/Login%20/Login.html';
+    }
+
+
+
+
+    const API_BASE = 'http://127.0.0.1:8000/groups/api/groups/'; // keep for actions like create/delete
+    const USER_GROUPS_API = 'http://127.0.0.1:8000/groups/api/groups/'; // default endpoint now shows user-specific
+
+        const token = localStorage.getItem('access_token');
+
+        // Function to decode JWT
+        function decodeJWT(token) {
+            try {
+                const base64Url = token.split('.')[1]; // Get the payload part of the token
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Convert to base64
+                const payload = JSON.parse(atob(base64)); // Decode and parse the payload
+                return payload;
+            } catch (error) {
+                console.error('Error decoding JWT:', error);
+                return null;
+            }
+        }
+
+        // Decode the access token to get the user_id
+        let userId = null;
+        if (token) {
+            const payload = decodeJWT(token);
+            if (payload && payload.user_id) {
+                userId = payload.user_id;
+                console.log('Current user ID (from token):', userId, typeof userId); // Log the user ID
+            } else {
+                console.error('User ID not found in token. Please log in again.');
+                // Redirect to login page or show an error message
+                window.location.href = '/Frontend/Login%20/Login.html';
+            }
+        } else {
+            console.error('Access token not found. Please log in again.');
+            // Redirect to login page or show an error message
+            window.location.href = '/Frontend/Login%20/Login.html';
+        }
+
+        // Load groups when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded, calling loadGroups()');
+            loadGroups();
+        });
+
+
+// Submit new group
+document.querySelector('.group-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const groupName = document.getElementById('groupName').value;
+    const groupDescription = document.getElementById('groupDescription').value;
+
+    const data = {
+        group_name: groupName,
+        description: groupDescription,
+        created_by: userId,
+        member_ids: [userId]
+    };
+
+    try {
+        const response = await fetch(API_BASE + 'create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                group_name: groupName,
+                description: groupDescription
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error('Group creation failed:', result);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.detail || 'Failed to create group.',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // Show success alert and wait for user to close it
+        await Swal.fire({
+            icon: 'success',
+            title: 'Group Created!',
+            text: 'Your group has been successfully created.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+            timer: null, // Disable auto-close
+            didOpen: () => {
+                const popup = Swal.getPopup();
+                popup.style.animationDuration = '1s'; // Adjust animation duration
+            }
+        });
+
+        // Reset the form
+        document.querySelector('.group-form').reset();
+
+        // Delay the execution of loadGroups() to ensure the alert animation completes
+        setTimeout(async () => {
+            await loadGroups();
+        }, 500); // 500ms delay (adjust as needed)
+
+    } catch (err) {
+        console.error('Error creating group:', err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong.',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        });
+    }
+});
+
+// Fetch and display groups
+async function loadGroups() {
+    try {
+        const response = await fetch(USER_GROUPS_API, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const groups = await response.json();
+
+        const showOnlyAdmin = document.getElementById('adminFilterToggle').checked;
+        const searchTerm = document.getElementById('groupSearchInput').value.toLowerCase();
+
+        const filteredGroups = groups
+            .filter(group => !showOnlyAdmin || group.admin?.id === parseInt(userId))
+            .filter(group => group.group_name.toLowerCase().includes(searchTerm)); // 👈 Search filtering
+
+        const container = document.getElementById('groupListContainer');
+        container.innerHTML = '';
+
+        if (filteredGroups.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#ccc;">No groups found.</p>';
+            return;
+        }
+
+        filteredGroups.forEach(group => {
+            const isAdmin = group.admin?.id === parseInt(userId);
+            const isMember = group.members.some(m => m.id === parseInt(userId));
+
+            const memberNames = group.members.map(m => {
+                const name = `${m.first_name} ${m.last_name}`;
+                return m.id === parseInt(userId) ? name + ' (You)' : name;
+            }).join(', ') || 'No members';
+
+            const groupEl = document.createElement('div');
+            groupEl.className = 'group';
+
+            groupEl.innerHTML = `
+                <div class="group-header">
+                      <div class="group-avatar" style="background-color: ${stringToColor(group.group_name)};">
+                            ${group.group_name.charAt(0).toUpperCase()}
+                        </div>
+                      <h3>${group.group_name}</h3>
+                </div>
+                <p><strong>Description:</strong> ${group.description}</p>
+                <p><strong>Admin:</strong> ${group.admin ? `${group.admin.first_name} ${group.admin.last_name}` : 'None'}</p>
+                <p><strong>Members:</strong> ${memberNames}</p>
+                <div class="group-actions">
+                    ${isAdmin ? `<button onclick="promptTransfer(${group.id})" class="transfer-button"><i class='bx bx-transfer'></i> Transfer Admin</button>` : ''}
+                    ${isMember ? `<button onclick="promptAddMember(${group.id})" class="add-button"><i class='bx bx-user-plus'></i> Add Member</button>` : ''}
+                    ${isAdmin ? `<button onclick="promptRemoveMembers(${group.id}, ${JSON.stringify(group.members).replace(/"/g, '&quot;')})" class="delete-button"><i class='bx bx-user-minus'></i> Remove Members</button>` : ''}
+                    ${isMember ? `<button onclick="leaveGroup(${group.id})" class="leave-button"><i class='bx bx-log-out-circle'></i> Leave Group</button>` : ''}
+                    ${isAdmin ? `<button onclick="deleteGroup(${group.id})" class="delete-button"><i class='bx bx-trash'></i> Delete Group</button>` : ''}
+                </div>
+            `;
+
+            container.appendChild(groupEl);
+        });
+
+    } catch (err) {
+        console.error('Error fetching groups:', err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to load groups. Please try again.',
+            confirmButtonColor: '#d33'
+        });
+    }
+}
+
+// Function to generate a color from a string
+function stringToColor(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const color = "#" + ((hash >> 24) & 0xFF).toString(16).padStart(2, '0') +
+                        ((hash >> 16) & 0xFF).toString(16).padStart(2, '0') +
+                        ((hash >> 8) & 0xFF).toString(16).padStart(2, '0');
+    return color;
+}
+
+
+// Listen for changes to the admin filter toggle
+document.getElementById('adminFilterToggle').addEventListener('change', loadGroups);
+
+// Listen for changes to the search input
+document.getElementById('groupSearchInput').addEventListener('input', loadGroups);
+
+
+
+// Add member
+async function promptAddMember(groupId) {
+    const { value: username } = await Swal.fire({
+        title: 'Add Member',
+        input: 'text',
+        inputLabel: 'Enter the username of the member you want to add:',
+        inputPlaceholder: 'e.g. johndoe123',
+        confirmButtonText: 'Add Member',
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+            if (!value) return 'You need to enter a username!';
+        },
+        background: '#1e1e1e',
+        color: '#fff'
+    });
+
+    if (!username) return;
+
+    Swal.fire({
+        title: 'Looking up user...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    try {
+        // Step 1: Get user ID by username
+        const userResponse = await fetch(`http://127.0.0.1:8000/groups/api/users/by-username/${username}/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!userResponse.ok) {
+            throw new Error('User not found');
+        }
+
+        const userData = await userResponse.json();
+        const userIdToAdd = userData.id;
+
+        // Step 2: Add to group
+        const res = await fetch(`http://127.0.0.1:8000/groups/api/groups/${groupId}/add-member/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ user_id: userIdToAdd })
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            throw new Error(result.detail || 'Failed to add member.');
+        }
+
+        await Swal.fire({
+            icon: 'success',
+            title: 'Member Added!',
+            text: result.message || `${username} has been added to the group.`,
+            confirmButtonColor: '#3085d6'
+        });
+
+        await loadGroups();
+
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message,
+            confirmButtonColor: '#d33'
+        });
+        console.error(error);
+    }
+}
+
+async function promptRemoveMembers(groupId, members) {
+    const otherMembers = members.filter(member => member.id !== parseInt(userId));
+
+    if (otherMembers.length === 0) {
+        return Swal.fire('No members to remove.', '', 'info');
+    }
+
+    const memberOptions = {};
+    otherMembers.forEach(member => {
+        const name = `${member.first_name} ${member.last_name}`;
+        memberOptions[member.id] = name;
+    });
+
+    const { value: selectedIds } = await Swal.fire({
+        title: 'Remove Members',
+        html: `
+            <label for="memberSelect" style="display:block; margin-bottom:10px; color:#fff;">Select members to remove:</label>
+            <select id="memberSelect" multiple style="
+                width: 100%;
+                height: 150px;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                background-color: #1e1e1e;
+                color: #fff;
+                outline: none;
+                overflow-y: auto;
+            ">
+                ${Object.entries(memberOptions).map(([id, name]) => `<option value="${id}">${name}</option>`).join('')}
+            </select>
+        `,
+        preConfirm: () => {
+            const select = document.getElementById('memberSelect');
+            const selected = Array.from(select.selectedOptions).map(opt => parseInt(opt.value));
+            if (selected.length === 0) {
+                Swal.showValidationMessage('You must select at least one member.');
+            }
+            return selected;
+        },
+        background: '#2c2c2c',
+        color: '#fff',
+        showCancelButton: true,
+        confirmButtonText: 'Remove',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#7f8c8d'
+    });
+
+    if (!selectedIds) return;
+
+    try {
+        for (const memberId of selectedIds) {
+            const res = await fetch(`http://127.0.0.1:8000/groups/api/groups/${groupId}/remove-member/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ user_id: memberId })
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                throw new Error(result.detail || 'Error removing member');
+            }
+        }
+
+        Swal.fire('Removed!', 'Selected members have been removed.', 'success');
+        await loadGroups();
+
+    } catch (error) {
+        console.error(error);
+        Swal.fire('Error', error.message, 'error');
+    }
+}
+
+
+
+
+//Leave group
+async function leaveGroup(groupId) {
+  if (!confirm("Are you sure you want to leave this group?")) return;
+
+  try {
+    const res = await fetch(`http://127.0.0.1:8000/groups/api/groups/${groupId}/leave/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const result = await res.json();
+    alert(result.message || result.detail);
+    await loadGroups();
+
+  } catch (error) {
+    alert('Error leaving group.');
+    console.error(error);
+  }
+}
+
+// Transfer admin rights
+async function promptTransfer(groupId) {
+  const newAdminId = prompt("Enter the user ID to transfer admin rights to:");
+  if (!newAdminId) return;
+
+  try {
+    const res = await fetch(`http://127.0.0.1:8000/groups/api/groups/${groupId}/transfer-admin/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ user_id: parseInt(newAdminId) })
+    });
+
+    const result = await res.json();
+    alert(result.message || result.detail);
+    await loadGroups();
+
+  } catch (error) {
+    alert('Error transferring admin rights.');
+    console.error(error);
+  }
+}
+
+// Delete group for admin
+async function deleteGroup(groupId) {
+    const { isConfirmed } = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'This will permanently delete the group and all its data.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c', // Red color
+        cancelButtonColor: '#3085d6', // Blue color
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/groups/api/groups/${groupId}/delete/`, {
+            
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete group.');
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'The group has been deleted.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+
+        await loadGroups(); // Reload the group list
+
+    } catch (error) {
+        console.error('Error deleting group:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to delete the group.',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        });
+    }
+}
+
+//Leave groups for everyone
+async function leaveGroup(groupId) {
+    const { isConfirmed } = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to leave this group.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#f39c12', // Orange color
+        cancelButtonColor: '#3085d6', // Blue color
+        confirmButtonText: 'Yes, leave!',
+        cancelButtonText: 'Cancel'
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+        const res = await fetch(`http://127.0.0.1:8000/groups/api/groups/${groupId}/leave/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const result = await res.json();
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: result.message || result.detail,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+        await loadGroups();
+
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error leaving group.',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK'
+        });
+        console.error(error);
+    }
+}
+
+
+
+// Load groups when page loads
+document.addEventListener('DOMContentLoaded', loadGroups);
+
+function decodeJWT(token) {
+    try {
+        const base64Url = token.split('.')[1]; // Get the payload part of the token
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Convert to base64
+        const payload = JSON.parse(atob(base64)); // Decode and parse the payload
+        return payload;
+    } catch (error) {
+        console.error('Error decoding JWT:', error);
+        return null;
+    }
+}
+   
+   
+   
+   </script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <footer>
+        <div class="container">
+            <p>&copy; ProjectPat. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

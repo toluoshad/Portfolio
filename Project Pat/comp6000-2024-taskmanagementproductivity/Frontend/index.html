@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Sidebar</title>
+    <link rel="stylesheet" href="#">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            background: url('./Images for site/study_theme_wallpaper.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .header {
+            position: fixed;
+    top: 0;
+    left: 0; /* Default position: hidden */
+    right: 0;
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+    color: #fff; /* White text */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease; /* Smooth sliding */
+}
+
+.header.active {
+    left: 260px; /* Slide in to align with the sidebar */
+}
+
+.header .account-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f39c12; /* Orange background for contrast */
+    color: #fff; /* White text */
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .header .account-button:hover {
+            background: #d35400; /* Darker orange on hover */
+    color: #fff;
+        }
+
+        .header .account-button i {
+            font-size: 18px;
+        }
+
+.header.sidebar-hidden {
+    left: 0; /* Align with screen edge when sidebar is hidden */
+}
+
+        
+
+        .header:hover {
+    background: rgba(255, 255, 255, 0.6); /* Slightly increase opacity on hover */
+    color: #000; /* Adjust text color if necessary */
+}
+
+
+        
+
+       
+
+    .account-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.938); /* Adjust background for contrast */
+    color: #05040433;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease color 0.3s ease;
+}
+
+.account-button:hover {
+    background: rgba(0, 0, 0, 0.4);
+    color: #0e0505;
+}
+
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            color: #fff;
+            z-index: 1100;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu .user-info {
+            margin-bottom: 10px;
+        }
+
+        .dropdown-menu .user-info p {
+            margin: 5px 0;
+        }
+
+        .dropdown-menu .role {
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        /* Active Status Dot */
+.status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #32cd32; /* Green color */
+    border-radius: 50%;
+    box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32; /* Glowing effect */
+    animation: pulse 1.5s infinite; /* Pulse effect */
+}
+
+/* Keyframes for the glowing pulse */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32;
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 15px #32cd32, 0 0 30px #32cd32;
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32;
+    }
+}
+
+.logout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.8); /* Red color for emphasis */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    display: flex; /* Ensures icon and text align properly */
+    align-items: center;
+    justify-content: center; /* Center-align the icon and text */
+    gap: 8px; /* Space between icon and text */
+}
+
+.logout-button:hover {
+    background-color: rgba(255, 0, 0, 1); /* Darker red on hover */
+}
+
+.logout-button i {
+    font-size: 16px; /* Adjust the size of the icon */
+}
+
+/* Menu Icon Styling */
+.menu-icon {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2000;
+    font-size: 20px;
+}
+
+        /* Sidebar hidden state */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px; /* Hide the sidebar offscreen */
+    height: 100%;
+    width: 260px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease; /* Smooth sliding effect */
+    z-index: 1000;
+}
+
+/* Sidebar visible state */
+.sidebar.active {
+    left: 0; /* Slide the sidebar into view */
+}
+
+/* Adjust the header when the sidebar is hidden */
+.sidebar:not(.active) + .header {
+    left: 0; /* Align the header with the screen edge */
+}
+
+.main-content {
+    margin-left: 260px; /* Default margin when sidebar is visible */
+    transition: margin-left 0.3s ease; /* Smooth transition */
+}
+
+.sidebar:not(.active) + .main-content {
+    margin-left: 0; /* Adjust when sidebar is hidden */
+}
+
+        .sidebar .logo {
+            /* Adjust positioning */
+            position: relative;
+            text-align: left;
+            margin-bottom: 20px; /* Ensure enough spacing below the logo */
+            margin-top: 0;
+        }
+
+        .sidebar .logo img {
+            /* Adjust size and move further left */
+            max-width:290px;
+            max-height: 400px;
+            margin: 0;
+            border-radius: 0;
+            display: block;
+            position: absolute;
+            left: -15px; /* Move image further left */
+            top: 0px; /* Adjusted to create separation from sidebar content */
+        }
+
+        .sidebar .separator {
+            /* Separator line styling */
+            width: 105%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 79px 0; /* Space above and below the separator */
+            left: -100px;
+            
+        }
+
+        .sidebar a {
+            /* Sidebar link styling */
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a:hover {
+            /* Hover effect for links */
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            background-image: linear-gradient(45deg, #FFE8A2, #70ddee);
+            color: #090404;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a:hover span {
+            font-weight: 600;
+        }
+
+        .sidebar a i {
+            /* Icon styling */
+            font-size: 20px;
+        }
+
+        .sidebar a:first-child {
+            margin-top: 20px; /* Slight adjustment after separator */
+        }
+
+        .main-content {
+            /* Main content container */
+    margin-left: 1000px;       /* space for the fixed sidebar */
+  padding: 80px 100px 20px;  /* top padding pushes below the fixed header */
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* center items horizontally within .main-content */
+  gap: 30px;
+        }
+
+        
+
+        
+        /*
+        .main-content h1 {
+        color: #4e595ffd; // Set the desired color (e.g., orange) 
+        position: absolute;
+        top: 100px; // Set the exact distance from the top 
+        left:  1150px; // Set the exact distance from the left 
+        color: #333; // Set the desired color 
+        font-size: 100px; // Adjust the size of the text 
+        border: 2px solid rgba(255, 255, 255, 0.6); /* Semi-transparent white border 
+        padding: 10px 20px; /* Add space inside the border 
+        background: rgba(255, 255, 255, 0.7); /* Semi-transparent black background 
+        border-radius: 10px; /* Rounded corners 
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Add text shadow for more contrast 
+        }
+        */
+        
+/* Remove the absolute positioning on the heading */
+.summary-title {
+  text-align: center;       /* Center the heading */
+  font-size: 100px;          /* Adjust as needed */
+  color: #333;              /* Text color */
+  margin: 60px 0 30px;      /* Spacing: 60px on top, 30px on bottom */
+  background: rgba(255, 255, 255, 0.7); 
+  padding: 10px 20px;       /* Some padding for a “bubble” effect */
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;      /* Rounded corners */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  display: inline-block;    /* So background/padding only wraps text */
+}
+.overview {
+  display: flex;
+  flex-wrap: wrap;          /* Allows wrapping if too many bubbles */
+  justify-content: center;  /* Centers items horizontally */
+  align-items: center;      /* Centers items vertically (if container has a fixed height) */
+  gap: 30px;                /* Spacing between bubbles */
+  margin-bottom: 20px;      /* Space below the overview row */
+}
+
+        /* Basic bubble styling */
+.bubble {
+    width: 400px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.bubble:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bubble i {
+    font-size: 24px;
+    color: #f39c12;
+}
+
+.bubble h3 {
+    margin: 10px 0;
+    font-size: 20px;
+}
+
+.bubble ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.bubble ul li {
+    margin: 5px 0;
+}
+
+
+.bubble + .bubble {
+  margin-top: 20px; /* If stacked vertically, add spacing between them */
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 150px; /* Adjust height as needed */
+    margin: 10px 0;
+}
+
+.chart-center-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Adjust the canvas size */
+#taskProgressChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.bubble button {
+    background: #f39c12;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.bubble button:hover {
+    background: #d35400;
+}
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Header with Account Button -->
+    <div class="header">
+        <div class="account-button" onclick="toggleDropdown()">
+            <i class='bx bxs-user-circle'></i>
+            <span>Account</span>
+        </div>
+    </div>
+    
+
+
+<div class="menu-icon" onclick="toggleSidebar()">
+    <i class='bx bx-menu'></i>
+</div>
+
+    <!-- Sidebar Container -->
+    <div class="sidebar">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="Logo.png" alt="Logo">
+        </div>
+
+        <!-- Separator Line -->
+        <div class="separator"></div>
+
+        <!-- Dashboard Link -->
+    <a href="Dashboard.html" id="dashboard-btn">
+    <i class="bx bxs-dashboard"></i>
+    <span>Dashboard</span>
+    </a>
+  
+
+        <!-- Groups Management Link -->
+        <a href="Group-Management.html">
+            <i class='bx bxs-user'></i>
+            <span>Groups</span>
+        </a>
+
+        <!-- Projects Management Link -->
+        <a href="#">
+            <i class='bx bxs-folder'></i>
+            <span>Projects</span>
+        </a>
+
+        <!-- Tasks Management Link -->
+        <a href="To-Do-List.html">
+            <i class='bx bx-task'></i>
+            <span>Tasks</span>
+        </a>
+
+        <!-- Calendar Link -->
+        <a href="#">
+            <i class='bx bx-calendar'></i>
+            <span>Calendar</span>
+        </a>
+
+        <!-- Settings Link -->
+        <a href="settings2.html">
+            <i class='bx bxs-cog'></i>
+            <span>Settings</span>
+          </a>
+          
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-menu" id="dropdown-menu" aria-expanded="false">
+        <div class="user-info">
+            <p>Name: <span id="user-name">John Doe</span></p>
+            <p>Email: <span id="user-email">johndoe@example.com</span></p>
+            <!-- Active Status -->
+            <p class="status">
+                <span class="status-dot"></span> Online
+            </p>
+        </div>
+            <p class="role">Role: <span id="user-role">Admin</span></p>
+            
+             <!-- Log Out Button -->
+             <button class="logout-button" onclick="logout()">
+                <i class='bx bx-log-out'></i> Log Out
+            </button>
+        
+    </div>
+    
+   <!-- Main Content -->
+<div class="main-content">
+    <h1 class="summary-title">Summary</h1>
+    
+    <div class="overview">
+      <!-- Upcoming Deadlines Bubble -->
+      <div class="bubble">
+        <i class='bx bx-calendar'></i>
+        <h3>Upcoming Deadlines</h3>
+        <ul>
+            <li>Math Assignment - Due Tomorrow</li>
+            <li>Science Project - Due in 3 Days</li>
+            <li>English Essay - Due in 5 Days</li>
+        </ul>
+        <button onclick="viewAllTasks()">View All Tasks</button>
+    </div>
+
+ <!-- Task Progress Bubble -->
+<div class="bubble">
+    <i class='bx bx-trending-up'></i>
+    <h3>Task Progress</h3>
+    <div class="chart-container">
+        <canvas id="taskProgressChart"></canvas>
+        <div class="chart-center-text" id="chartCenterText">60%</div>
+    </div>
+    <button onclick="viewProgress()">View Details</button>
+</div>
+    </div>
+
+    <!-- Study Groups Bubble -->
+    <div class="bubble">
+        <i class='bx bx-group'></i>
+        <h3>Study Groups</h3>
+        <ul>
+            <li>Math Study Group</li>
+            <li>Science Club</li>
+        </ul>
+        <button onclick="viewAllGroups()">View All Groups</button>
+    </div>
+
+    <!-- Recent Activity Bubble -->
+    <div class="bubble">
+        <i class='bx bx-bell'></i>
+        <h3>Recent Activity</h3>
+        <ul>
+            <li>You completed "Math Homework"</li>
+            <li>John completed "Science Project"</li>
+        </ul>
+        <button onclick="viewAllActivity()">View All Activity</button>
+    
+  </div>
+  
+    
+    
+    
+
+    <script>
+
+        //Dropdown button
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown-menu');
+        const isExpanded = dropdown.getAttribute('aria-expanded') === 'true';
+        dropdown.classList.toggle('active');
+        dropdown.setAttribute('aria-expanded', !isExpanded);
+        }
+
+        function logout() {
+        // Redirect to the login page
+        window.location.href = '/Frontend/Login%20/Login.html';
+
+    }
+
+    //Sidebar button
+    function toggleSidebar() {
+       const sidebar = document.querySelector('.sidebar');
+    const header = document.querySelector('.header');
+
+    // Toggle the sidebar visibility
+    sidebar.classList.toggle('active');
+
+    // Toggle the header visibility
+    header.classList.toggle('active');
+}
+
+ //Dashboard button
+ const dashboardBtn = document.getElementById('dashboard-btn');
+
+        const dashboardOverview = document.getElementById('dashboard-overview');
+
+        // Click event for the Dashboard button
+        dashboardBtn.addEventListener('click', () => {
+            // Toggle the active state of the button
+            dashboardBtn.classList.toggle('active');
+            
+            // Show or hide the dashboard overview
+            if (dashboardOverview.style.display === 'grid') {
+                dashboardOverview.style.display = 'none';
+            } else {
+                dashboardOverview.style.display = 'grid';
+            }
+        });
+
+
+
+        // Get piechart (Task progress)
+const ctx = document.getElementById('taskProgressChart').getContext('2d');
+const chartCenterText = document.getElementById('chartCenterText');
+
+// Create the pie chart
+const taskProgressChart = new Chart(ctx, {
+    type: 'doughnut', // Use pie chart
+    data: {
+        labels: ['Completed', 'Remaining'],
+        datasets: [{
+            data: [60, 40], // Example data: 60% completed, 40% remaining
+            backgroundColor: ['#f39c12', '#e0e0e0'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%', // Adjust the size of the hollow center (default is 50%)
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            tooltip: {
+                enabled: true
+            }
+        }
+    }
+});
+
+// Function to update the chart and center text
+function updateChart(completed, remaining) {
+    taskProgressChart.data.datasets[0].data = [completed, remaining];
+    taskProgressChart.update();
+    chartCenterText.textContent = `${completed}%`;
+}
+
+// Example: Update the chart to 75% completed
+updateChart(75, 25);
+    </script>
+
+</body>
+
+</html>

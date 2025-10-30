@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        /* Root variables for consistent theming */
+        :root {
+            --primary-color: rgba(0, 0, 0, 0.6);
+            --accent-color: #f39c12;
+            --background-color: #F5F5F5;
+            --text-color: #FFFFFF;
+            --button-primary: #3498db;
+            --button-secondary: #2ecc71;
+            --button-danger: #e74c3c;
+            --button-hover: #2980b9;
+            --input-bg: rgba(255, 255, 255, 0.15);
+            --input-hover: rgba(255, 255, 255, 0.2);
+            --input-focus: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Base body styling */
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            color: var(--text-color);
+            background: url('./Images for site/study_theme_wallpaper.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            position: relative;
+        }
+
+        /* Add a blurred overlay to the background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 300px;
+            right: 0;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .back-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .header .back-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .header .back-button i {
+            font-size: 18px;
+        }
+
+        /* Account button styling */
+        .account-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f39c12;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+            margin-left: auto;
+        }
+
+        .account-button:hover {
+            background: #d35400;
+        }
+
+        .account-button i {
+            font-size: 18px;
+        }
+
+        /* Dropdown menu styling */
+        .dropdown-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            color: #fff;
+            z-index: 2001;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu .user-info {
+            margin-bottom: 10px;
+        }
+
+        .dropdown-menu .user-info p {
+            margin: 5px 0;
+        }
+
+        .dropdown-menu .role {
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #32cd32;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #32cd32;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px #32cd32;
+            }
+            50% {
+                transform: scale(1.2);
+                box-shadow: 0 0 15px #32cd32;
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px #32cd32;
+            }
+        }
+
+        .logout-button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .logout-button:hover {
+            background-color: rgba(255, 0, 0, 1);
+        }
+
+        .logout-button i {
+            font-size: 16px;
+        }
+
+        /* Projects container styling */
+        .projects-container {
+            margin-left: 300px;
+            margin-top: 70px;
+            padding: 20px;
+            width: calc(100% - 300px);
+            position: relative;
+        }
+
+        /* Project card styling */
+        .project-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card.completed {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card.completed:hover {
+            opacity: 0.85;
+        }
+
+
+        /* Project header section */
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Status indicators */
+        .project-status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        .status-ongoing {
+            background: #f39c12;
+        }
+
+        .status-completed {
+            background: #27ae60;
+        }
+
+        /* Project details grid */
+        .project-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-item i {
+            font-size: 1.2em;
+        }
+
+        /* Add project button */
+        .add-project-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--button-primary);
+            color: var(--text-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-project-btn:hover {
+            background: var(--button-hover);
+            transform: scale(1.1);
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        /* Logo styling in sidebar */
+        .sidebar .logo {
+            position: relative;
+            text-align: left;
+            margin-bottom: 20px;
+            margin-top: 0;
+        }
+
+        .sidebar .logo img {
+            max-width: 290px;
+            max-height: 400px;
+            margin: 0;
+            border-radius: 0;
+            display: block;
+            position: absolute;
+            left: -15px;
+            top: 0px;
+        }
+
+        /* Separator line styling */
+        .sidebar .separator {
+            width: 105%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 79px 0;
+            left: -100px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 25px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            background-image: linear-gradient(45deg, #FFE8A2, #70ddee);
+            color: #090404;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        /* Search and Filter Section Styling */
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 12px 20px 12px 45px;
+            border: none;
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .search-box:hover {
+            background: var(--input-hover);
+        }
+
+        .search-box:focus {
+            background: var(--input-focus);
+            outline: none;
+            box-shadow: 0 0 0 2px var(--button-primary);
+        }
+
+        /* Search icon styling */
+        .search-container {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .filter-select:hover {
+            background-color: var(--input-hover);
+        }
+
+        .filter-select:focus {
+            background-color: var(--input-focus);
+            outline: none;
+            box-shadow: 0 0 0 2px var(--button-primary);
+        }
+
+        .filter-select option {
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--text-color);
+            padding: 10px;
+        }
+
+        /* Clear Completed button styling update */
+        .clear-completed-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: var(--button-danger);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .clear-completed-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .clear-completed-btn i {
+            color: var(--text-color);
+            font-size: 18px;
+        }
+
+        /* Modal styles update */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #f39c12;
+        }
+
+        .modal-content h2 {
+            margin: 0 0 20px 0;
+            font-size: 28px;
+            color: white;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--button-primary);
+            color: var(--text-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--button-secondary);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #f39c12;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Add this to your existing CSS */
+.detail-item.description-item {
+    grid-column: 1 / -1; /* Makes description span full width */
+    align-items: flex-start; /* Aligns icon with top of text */
+}
+
+.project-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+}
+
+.detail-item.description-item i {
+    margin-top: 3px; /* Better icon alignment */
+}
+
+/* Toggle Switch Styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #27ae60;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.status-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Status indicator styles */
+.project-status {
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.project-status.status-ongoing:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+.project-status.status-completed {
+    opacity: 0.8;
+    cursor: default !important;
+}
+
+.delete-project-btn {
+    background: transparent;
+    border: none;
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.delete-project-btn:hover {
+    color: #e74c3c;
+}
+
+
+.project-details-popup {
+    border-radius: 10px;
+    border: 1px solid #f39c12;
+}
+
+.project-details-title {
+    color: #f39c12;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.project-details-content {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.add-member-btn {
+    background: var(--button-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.add-member-btn:hover {
+    background: var(--button-hover);
+}
+
+.members-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.members-section li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Add to your styles */
+.member-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.1);
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.add-member-btn {
+    background: var(--button-primary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.add-member-btn:hover {
+    background: var(--button-hover);
+}
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="Logo.png" alt="Logo">
+        </div>
+    
+        <!-- Separator Line -->
+        <div class="separator"></div>
+    
+        <!-- Dashboard Link -->
+        <a href="Dashboard.html">
+            <i class='bx bxs-dashboard'></i>
+            <span>Dashboard</span>
+        </a>
+    
+        <!-- Groups Management Link -->
+        <a href="Group-Management.html">
+            <i class='bx bxs-user'></i>
+            <span>Groups</span>
+        </a>
+    
+        <!-- Projects Management Link -->
+        <a href="Projects.html">
+            <i class='bx bxs-folder'></i>
+            <span>Projects</span>
+        </a>
+    
+        <!-- Tasks Management Link -->
+        <a href="To-Do-List.html">
+            <i class='bx bx-task'></i>
+            <span>Tasks</span>
+        </a>
+    
+        <!-- Calendar Link -->
+        <a href="Calendar.html">
+            <i class='bx bx-calendar'></i>
+            <span>Calendar</span>
+        </a>
+    
+        <!-- Settings Link -->
+        <a href="settings2.html">
+            <i class='bx bxs-cog'></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <a href="#" class="back-button">
+            <i class='bx bx-arrow-back'></i>
+            <span>Back to Main Menu</span>
+        </a>
+        <div class="account-button">
+            <i class='bx bxs-user-circle'></i>
+            <span>Account</span>
+        </div>
+    </div>
+
+    <!-- Account dropdown menu -->
+    <div class="dropdown-menu">
+        <div class="user-info">
+            <p>Name: <span id="user-name">Loading...</span></p>
+            <p>Email: <span id="user-email">Loading...</span></p>
+            <p class="status">
+                <span class="status-dot"></span> Online
+            </p>
+        </div>
+        <p class="role">Role: <span id="user-role">Loading...</span></p>
+        <button class="logout-button">
+            <i class='bx bx-log-out'></i> Log Out
+        </button>
+    </div>
+
+    <!-- Main Projects Container -->
+    <div class="projects-container">
+        <!-- Search and Filter Section -->
+        <div class="search-container">
+            <i class='bx bx-search search-icon'></i>
+            <input type="text" class="search-box" placeholder="Search projects...">
+            <select class="filter-select">
+                <option value="all">All Projects</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+            </select>
+            <button id="clear-completed-btn" class="clear-completed-btn">
+                <i class='bx bx-trash'></i>
+                Clear Completed
+            </button>
+            
+        </div>
+
+        <!-- Project Cards will be dynamically inserted here -->
+
+        <!-- Add Project Button -->
+        <button class="add-project-btn">
+            <i class='bx bx-plus'></i>
+        </button>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div id="projectDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Project Details</h2>
+            <div class="project-details">
+                <!-- Project details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Project Modal -->
+    <div id="addProjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Create New Project</h2>
+            <form id="addProjectForm">
+                <div class="form-group">
+                    <label for="projectName">Project Name *</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectDueDate">Due Date (YYYY-MM-DD)</label>
+                    <input type="date" id="projectDueDate" 
+                           pattern="\d{4}-\d{2}-\d{2}" 
+                           placeholder="YYYY-MM-DD">
+                </div>
+                <button type="submit" class="btn btn-primary">Create Project</button>
+            </form>
+        </div>
+    </div>
+
+    
+
+    <!-- Basic JavaScript for UI interactions -->
+    <script>
+
+const API_BASE = "http://127.0.0.1:8000";
+
+
+         // Toggle Dropdown Menu
+         function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown-menu');
+        const isExpanded = dropdown.getAttribute('aria-expanded') === 'true';
+        dropdown.classList.toggle('active');
+        dropdown.setAttribute('aria-expanded', !isExpanded);
+        }
+
+         // Function to fetch and display user profile
+         async function fetchUserProfile() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/user-profile-drop/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Use JWT token for authentication
+            }
+        });
+        
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user profile');
+        }
+
+        const data = await response.json();
+
+        // ✅ Store user data in localStorage for access in other parts of the app
+        localStorage.setItem('user', JSON.stringify(data));
+
+        // Update the dropdown with user data
+        document.getElementById('user-name').textContent = `${data.first_name} ${data.last_name}`;
+        document.getElementById('user-email').textContent = data.email;
+        document.getElementById('user-role').textContent = data.role || 'User'; // Default to 'User' if role is not provided
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+
+        // Display an error message in the dropdown
+        document.getElementById('user-name').textContent = 'Error loading user data';
+        document.getElementById('user-email').textContent = 'Please try again later';
+        document.getElementById('user-role').textContent = 'User'; // Default role
+    }
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', fetchUserProfile);
+
+
+        // Logout Function
+        function logout() {
+        // Redirect to the login page
+        window.location.href = '/Frontend/Login%20/Login.html';
+    }
+
+
+
+        // Basic modal functionality
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+
+        // Account dropdown toggle
+        document.querySelector('.account-button').addEventListener('click', function() {
+            document.querySelector('.dropdown-menu').classList.toggle('active');
+        });
+
+        // Add project button
+        document.querySelector('.add-project-btn').addEventListener('click', function() {
+            document.getElementById('addProjectModal').style.display = 'block';
+        });
+
+        //
+        document.querySelector('.logout-button').addEventListener('click', async function(e) {
+    e.preventDefault();
+    
+    const result = await Swal.fire({
+        title: 'Log Out?',
+        text: 'Are you sure you want to log out?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#e74c3c'
+    });
+    
+    if (result.isConfirmed) {
+        // Clear all auth-related data
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user');
+        sessionStorage.clear();
+        
+        // Redirect to login
+        window.location.href = '/Frontend/Login%20/Login.html';
+    }
+});
+
+        
+
+
+
+    function validateDateInput(dateString) {
+    if (!dateString) return true; // Empty is allowed
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateString)) {
+        alert('Please enter date in YYYY-MM-DD format');
+        return false;
+    }
+    return true;
+}
+
+
+        // Main function to handle project creation
+        async function handleProjectSubmit(event) {
+    event.preventDefault();
+    
+    // Get the token first
+    const token = localStorage.getItem('access_token');
+    
+    // Then check if it exists
+    if (!token) {
+        alert('Please log in to create projects');
+        window.location.href = '/Frontend/Login%20/Login.html';
+        return;
+    }
+
+    // Get form values
+    const projectData = {
+        name: document.getElementById('projectName').value.trim(),
+        description: document.getElementById('projectDescription').value.trim() || null,
+        due_date: document.getElementById('projectDueDate').value || null,
+        status: 'ongoing' // Force all new projects to be ongoing
+    };
+
+    // Validate required fields
+    if (!projectData.name) {
+        alert('Project name is required');
+        return;
+    }
+
+    try {
+        // Send request to backend
+        const response = await fetch(`${API_BASE}/projects/create-project/`, {
+             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // Now token is properly defined
+            },
+            body: JSON.stringify(projectData)
+        });
+
+        // Handle response
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Failed to create project');
+        }
+
+        const newProject = await response.json();
+        
+        // Close modal and reset form
+        document.getElementById('addProjectModal').style.display = 'none';
+        document.getElementById('addProjectForm').reset();
+        
+        // Refresh projects list
+        await fetchAndDisplayProjects();
+        
+        // Show success message
+        alert(`Project "${newProject.name}" created successfully!`);
+        
+    } catch (error) {
+        console.error('Error creating project:', error);
+        
+        // Handle specific error cases
+        if (error.message.includes('401')) {
+            localStorage.removeItem('access_token');
+            window.location.href = '/Frontend/Login%20/Login.html';
+        } else {
+            alert(`Error: ${error.message}`);
+        }
+    }
+}
+
+async function deleteProject(projectId) {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        return window.location.href = '/Frontend/Login%20/Login.html';
+    }
+
+    const confirm = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'This will permanently delete the project.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#e74c3c'
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/projects/delete-project/${projectId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 204) {
+            Swal.fire('Deleted!', 'The project was removed.', 'success');
+            await fetchAndDisplayProjects(); // Refresh project list
+        } else {
+            const err = await response.json();
+            throw new Error(err.error || 'Failed to delete project');
+        }
+
+    } catch (err) {
+        console.error(err);
+        Swal.fire('Error', err.message, 'error');
+    }
+}
+
+
+
+async function toggleProjectStatus(projectId, currentStatus) {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    // Only allow changing from ongoing to completed (one-way)
+    if (currentStatus === 'completed') {
+        Swal.fire(
+            'Already Completed',
+            'This project is already marked as completed.',
+            'info'
+        );
+        return;
+    }
+
+    try {
+        const result = await Swal.fire({
+            title: 'Mark Project as Completed?',
+            html: `
+                <div style="margin: 20px 0;">
+                    <p>You're about to mark this project as completed.</p>
+                    <p>This action cannot be undone.</p>
+                </div>
+            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, mark completed',
+            cancelButtonText: 'Keep as ongoing',
+            confirmButtonColor: '#27ae60',
+            cancelButtonColor: '#3498db',
+            focusConfirm: false
+        });
+
+        if (result.isConfirmed) {
+            // Update in backend
+            const response = await fetch(`${API_BASE}/projects/update-project/${projectId}/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ status: 'completed' })
+            });
+
+            if (!response.ok) throw new Error("Failed to update status");
+            
+            // Refresh projects list
+            await fetchAndDisplayProjects();
+            
+            Swal.fire(
+                'Completed!',
+                'Project has been marked as completed',
+                'success'
+            );
+        }
+
+    } catch (error) {
+        console.error('Error updating status:', error);
+        Swal.fire(
+            'Error!',
+            'Failed to update project status',
+            'error'
+        );
+    }
+}
+
+
+
+// Function to fetch and display projects
+async function fetchAndDisplayProjects(filter = '', status = 'all') {
+    filter = String(filter || '');
+    status = String(status || 'all');
+    
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error("Access token not found");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/projects/get-all-projects/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch projects");
+
+        const projects = await response.json();
+        const container = document.querySelector('.projects-container');
+
+        // Clear existing project cards
+        document.querySelectorAll('.project-card').forEach(card => card.remove());
+
+        // Apply filters
+        const filtered = projects.filter(p => {
+            const matchText =
+                p.name.toLowerCase().includes(filter.toLowerCase()) ||
+                (p.description && p.description.toLowerCase().includes(filter.toLowerCase()));
+
+            const matchStatus =
+                status === 'all' || p.status.toLowerCase() === status.toLowerCase();
+
+            return matchText && matchStatus;
+        });
+
+        filtered.sort((a, b) => {
+            if (a.status === b.status) return 0;
+            return a.status === 'ongoing' ? -1 : 1;
+        });
+
+        // Render filtered projects
+        filtered.forEach(project => {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            
+            if (project.status === 'completed') {
+        card.classList.add('completed');
+    }
+            card.innerHTML = `
+    <div class="project-header">
+        <div class="project-title">${project.name}</div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="member-count">
+                <i class='bx bx-user'></i> ${project.member_count}
+            </span>
+            <span class="project-status ${project.status === 'completed' ? 'status-completed' : 'status-ongoing'}"
+                onclick="event.stopPropagation(); toggleProjectStatus(${project.id}, '${project.status}')"
+                style="cursor: ${project.status === 'ongoing' ? 'pointer' : 'default'}">
+                ${project.status === 'completed' ? 'Completed' : 'Ongoing'}
+            </span>
+            <button class="delete-project-btn" onclick="event.stopPropagation(); deleteProject(${project.id})">
+                <i class='bx bx-trash'></i>
+            </button>
+        </div>
+    </div>
+    <div class="project-details">
+        <div class="detail-item">
+            <i class='bx bx-calendar'></i>
+            <span>Due: ${project.due_date || 'Not set'}</span>
+        </div>
+        <div class="detail-item">
+            <i class='bx bx-hash'></i>
+            <span>ID: ${project.id}</span>
+        </div>
+        ${project.description ? `
+            <div class="detail-item description-item">
+                <i class='bx bx-text'></i>
+                <span class="project-description">${project.description}</span>
+            </div>
+        ` : ''}
+    </div>
+`;
+            card.addEventListener('click', (event) => {
+                if (!event.target.closest('.add-member-btn')) {
+                    showProjectDetails(project);
+                }
+            });
+
+            const addButton = document.querySelector('.add-project-btn');
+            container.insertBefore(card, addButton);
+        });
+
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+        if (error.message.includes('401')) {
+            localStorage.removeItem('access_token');
+            window.location.href = '/Frontend/Login%20/Login.html';
+        }
+    }
+}
+
+
+
+
+
+// Function to fetch project members
+async function fetchProjectMembers(projectId) {
+    try {
+        const response = await fetch(`${API_BASE}/projects/${projectId}/members/`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+        });
+        return response.ok ? await response.json() : [];
+    } catch (error) {
+        console.error('Error fetching members:', error);
+        return { members: [] };
+    }
+}
+
+// Function to show add member dialog
+async function promptAddProjectMember(projectId) {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        return window.location.href = '/Frontend/Login%20/Login.html';
+    }
+
+    const { value: username } = await Swal.fire({
+        title: 'Add Member to Project',
+        input: 'text',
+        inputLabel: 'Enter the username of the member you want to add:',
+        inputPlaceholder: 'e.g. johndoe123',
+        confirmButtonText: 'Add Member',
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+            if (!value) return 'You need to enter a username!';
+        },
+        background: '#1e1e1e',
+        color: '#fff'
+    });
+
+    if (!username) return;
+
+    Swal.fire({
+        title: 'Looking up user...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    try {
+        // Step 1: Look up user by username
+        const userRes = await fetch(`http://127.0.0.1:8000/projects/api/users/by-username/${username}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!userRes.ok) {
+                throw new Error("User not found");
+            }
+
+            const user = await userRes.json();
+
+
+
+
+        // Step 2: Add to project
+        const addRes = await fetch(`http://127.0.0.1:8000/projects/${projectId}/add-member/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ user_id: user.id })
+            });
+
+        const result = await addRes.json();
+
+        if (!addRes.ok) {
+            throw new Error(result.error || 'Failed to add user to project.');
+        }
+
+        await Swal.fire({
+            icon: 'success',
+            title: 'Member Added!',
+            text: `${user.username} has been added to the project.`,
+            confirmButtonColor: '#27ae60'
+        });
+
+        // Optionally refresh modal
+        // showProjectDetails({ id: projectId });
+
+    } catch (err) {
+        console.error(err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: err.message,
+            confirmButtonColor: '#e74c3c'
+        });
+    }
+}
+
+
+
+async function getCurrentUserLite() {
+    try {
+        const response = await fetch(`${API_BASE}/api/user-profile-drop/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+        });
+
+        if (!response.ok) {
+            console.warn("Unable to fetch user info");
+            return null;
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.error('Error fetching current user:', err);
+        return null;
+    }
+}
+
+// Update your project details view to include add member button
+async function showProjectDetails(project) {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        console.error('No access token - redirecting');
+        window.location.href = '/Frontend/Login%20/Login.html';
+        return;
+    }
+
+    try {
+        // Fetch full details from backend
+        const response = await fetch(`http://127.0.0.1:8000/projects/get-project/${project.id}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to load project: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        const membersHTML = (data.members || []).map(m => `
+            <li style="padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.1)">
+                <i class='bx bx-user'></i> ${m.username}
+                ${m.id === data.creator?.id ? '<span style="color:#f39c12;"> (Owner)</span>' : ''}
+            </li>
+        `).join('');
+
+        const dueDate = data.due_date 
+            ? new Date(data.due_date).toLocaleDateString() 
+            : 'Not set';
+
+        await Swal.fire({
+            title: data.name || 'Unnamed Project',
+            html: `
+
+                <div style="text-align:left; margin-top: 10px;">
+        <p><strong>Status:</strong> 
+            <span style="color: ${data.status === 'completed' ? '#27ae60' : '#f39c12'};">
+                ${data.status}
+            </span>
+        </p>
+        <p><strong>Due Date:</strong> ${dueDate}</p>
+        <p><strong>Description:</strong> ${data.description || 'No description'}</p>
+
+        <div style="margin-top: 20px;">
+            <h3 style="margin-bottom: 8px;">Members (${data.members?.length || 0})</h3>
+            <ul style="max-height: 150px; overflow-y: auto; padding-left: 20px;">
+                ${membersHTML || '<li>No members yet</li>'}
+            </ul>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="swal2-confirm swal2-styled" id="add-member-btn">
+                <i class='bx bx-plus'></i> Add Member
+            </button>
+            <button class="swal2-confirm swal2-styled" id="view-tasks-btn" style="background-color: #3498db;">
+                <i class='bx bx-task'></i> View Tasks
+            </button>
+        </div>
+    </div>
+            `,
+            showConfirmButton: false,
+            showCloseButton: true,
+            width: '600px',
+            background: 'rgba(0,0,0,0.95)',
+            color: '#fff',
+
+            didOpen: () => {
+    const addBtn = document.getElementById('add-member-btn');
+    const viewBtn = document.getElementById('view-tasks-btn');
+
+    if (addBtn) {
+        addBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            promptAddProjectMember(project.id);
+        });
+    }
+
+    if (viewBtn) {
+        viewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.location.href = `To-Do-List.html?project=${project.id}`;
+        });
+    }
+}
+        });
+
+        // Handle Add Member button
+        document.getElementById('add-member-btn')?.addEventListener('click', () => {
+        promptAddProjectMember(project.id);
+        });
+
+    } catch (err) {
+        console.error('Error loading project details:', err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: err.message || 'Something went wrong loading project details'
+        });
+    }
+}
+
+
+
+
+
+async function makeAuthenticatedRequest(url, method = 'GET', body = null) {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/Frontend/Login%20/Login.html';
+        return null;
+    }
+
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+
+    const config = {
+        method,
+        headers
+    };
+
+    if (body) {
+        config.body = JSON.stringify(body);
+    }
+
+    try {
+        const response = await fetch(url, config);
+        
+        if (response.status === 401) {
+            // Token expired or invalid
+            localStorage.removeItem('access_token');
+            window.location.href = '/Frontend/Login%20/Login.html';
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('API request failed:', error);
+        return null;
+    }
+}
+
+// Initialize form submission handler
+document.getElementById('addProjectForm').addEventListener('submit', handleProjectSubmit);
+
+// Load projects when page loads
+document.addEventListener('DOMContentLoaded', fetchAndDisplayProjects);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-box');
+    const filterSelect = document.querySelector('.filter-select');
+
+    function applyFilters() {
+        const searchValue = searchInput.value.trim();
+        const statusValue = filterSelect.value;
+        fetchAndDisplayProjects(searchValue, statusValue);
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    filterSelect.addEventListener('change', applyFilters);
+
+    fetchAndDisplayProjects(); // Initial load
+});
+
+document.getElementById('clear-completed-btn').addEventListener('click', async () => {
+    const confirm = await Swal.fire({
+        title: 'Clear All Completed Projects?',
+        text: 'This will permanently delete all completed projects.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, clear them',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#e74c3c'
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/projects/get-all-projects/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const allProjects = await response.json();
+
+        // Filter only completed projects
+        const completed = allProjects.filter(p => p.status === 'completed');
+
+        // Delete each completed project
+        await Promise.all(completed.map(project =>
+            fetch(`${API_BASE}/projects/delete-project/${project.id}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+        ));
+
+        Swal.fire('Done!', `${completed.length} completed project(s) removed.`, 'success');
+        await fetchAndDisplayProjects();
+
+    } catch (err) {
+        console.error(err);
+        Swal.fire('Error', 'Something went wrong clearing completed projects.', 'error');
+    }
+});
+
+
+
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

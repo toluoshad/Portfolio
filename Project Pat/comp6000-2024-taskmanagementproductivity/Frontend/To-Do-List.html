@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Task and To-Do List Management - Group Management Platform</title>
+    <style>
+        /* Basic reset and body styles */
+        body {
+            font-family: "Poppins", sans-serif;
+            background: url('./Images for site/study_theme_wallpaper.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffff; /* White text */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styles */
+        header {
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent white */
+    color: #fff; /* Black text */
+    padding: 15px 20px;
+    display: flex;
+    align-items: center; /* Vertically center items */
+    border-bottom: 4px solid rgba(93, 91, 91, 0.6); /* Darker Lime Green */
+    position: relative; /* For absolute positioning of the back button */
+}
+
+        
+
+        header:hover {
+    background: rgba(0, 0, 0, 0.504) /* Slightly increase opacity on hover */   
+}
+
+/* Centered Title and Navigation Links */
+.header-center {
+    flex: 1; /* Take up remaining space */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    margin: 0 auto; /* Center the entire block */
+}
+
+.header-center h1 {
+    margin: 0;
+    font-size: 35px;
+    text-align: center;
+}
+
+.header-center nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.header-center nav ul li a {
+    color: #fff; /* Black text */
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.header-center nav ul li a:hover {
+    text-decoration: underline;
+    color: #2008f7;
+}
+
+/* Back Button */
+header .back-button {
+    position: absolute; /* Position the back button absolutely */
+    left: 300px; /* Align to the left */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-decoration: none;
+    font-size: 18px;
+    z-index: 1; /* Ensure it's above other elements */
+}
+
+header .back-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+header .back-button a {
+    color: #fff; /* Set the text color to white */
+    text-decoration: none; /* Remove underline */
+}
+
+header .back-button a:hover {
+    color: #fff; /* Ensure the color stays white on hover */
+}
+
+
+
+    /* Account Button */
+header .account-button {
+    position: absolute; /* Position the account button absolutely */
+    right: 20px; /* Align to the right */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f39c12;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    z-index: 1; /* Ensure it's above other elements */
+}
+
+header .account-button:hover {
+    background: #d35400; /* Darker orange on hover */
+}
+
+        .header .account-button i {
+            font-size: 18px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar .logo {
+            /* Adjust positioning */
+            position: relative;
+            text-align: left;
+            margin-bottom: 20px; /* Ensure enough spacing below the logo */
+            margin-top: 0;
+        }
+
+        .sidebar .logo img {
+            /* Adjust size and move further left */
+            max-width:290px;
+            max-height: 400px;
+            margin: 0;
+            border-radius: 0;
+            display: block;
+            position: absolute;
+            left: -15px; /* Move image further left */
+            top: 0px; /* Adjusted to create separation from sidebar content */
+        }
+
+        .sidebar .separator {
+            /* Separator line styling */
+            width: 105%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 79px 0; /* Space above and below the separator */
+            left: -100px;
+            
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 25px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a:hover {
+            /* Hover effect for links */
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            background-image: linear-gradient(45deg, #FFE8A2, #70ddee);
+            color: #090404;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a i {
+            font-size: 20px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+
+
+        .account-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.938); /* Adjust background for contrast */
+    color: #05040433;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease color 0.3s ease;
+}
+
+.account-button:hover {
+    background: rgba(0, 0, 0, 0.4);
+    color: #0e0505;
+}
+
+.dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            color: #fff;
+            z-index: 1100;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu .user-info {
+            margin-bottom: 10px;
+        }
+
+        .dropdown-menu .user-info p {
+            margin: 5px 0;
+        }
+
+        .dropdown-menu .role {
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        /* Active Status Dot */
+.status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #32cd32; /* Green color */
+    border-radius: 50%;
+    box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32; /* Glowing effect */
+    animation: pulse 1.5s infinite; /* Pulse effect */
+}
+
+/* Keyframes for the glowing pulse */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32;
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 15px #32cd32, 0 0 30px #32cd32;
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #32cd32, 0 0 20px #32cd32;
+    }
+}
+
+.logout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.8); /* Red color for emphasis */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    display: flex; /* Ensures icon and text align properly */
+    align-items: center;
+    justify-content: center; /* Center-align the icon and text */
+    gap: 8px; /* Space between icon and text */
+}
+
+.logout-button:hover {
+    background-color: rgba(255, 0, 0, 1); /* Darker red on hover */
+}
+
+.logout-button i {
+    font-size: 16px; /* Adjust the size of the icon */
+}
+
+
+        /* Main section styles */
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        section {
+            background-color: #cbae81; /* Dark brown */
+            color: #ffffff; /* White text */
+            margin-bottom: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px; /* Limit width for better readability */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #ffff; /* Lime Green */
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Task form styles */
+        .task-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffffff; /* White text */
+        }
+
+        .task-form input[type="text"],
+        .task-form textarea,
+        .task-form input[type="date"],
+        .task-form select,
+        .task-form button {
+            width: calc(100% - 20px); /* Adjust width for padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ffffff; /* White border */
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #ffffff1a; /* Transparent white */
+            color: #ffffff; /* White text */
+            transition: border-color 0.3s ease;
+        }
+
+        .task-form input[type="text"]:focus,
+        .task-form textarea:focus,
+        .task-form input[type="date"]:focus,
+        .task-form select:focus {
+            border-color: #fff; /* Lime Green on focus */
+        }
+
+        .task-form button {
+            background-color: #fff; /* Lime Green */
+            color: #000000; /* Black text */
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-form button:hover {
+            background-color: rgb(221, 221, 221); /* Darker Lime Green on hover */
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Task list styles */
+        .task-list .task {
+            background-color: #02a9fc53; /* Darker Gray */
+            color: #ffffff; /* White text */
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffffff; /* White border */
+            font-size: 20px;
+        }
+
+        .task-list .task h3 {
+            margin-top: 0;
+            color: #fff; /* Lime Green */
+            font-size: 25px;
+        }
+
+        .task-list .task p {
+            margin: 5px 0;
+            color: #ffffff; /* White text */
+        }
+
+        /* Task status styles */
+        .task-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .task-status label {
+            color: #ffffff; /* White text */
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .task-status select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ffffff; /* White border */
+            background-color: #cbae81; /* Transparent white */
+            color: #ffff; /* White text */
+            transition: border-color 0.3s ease;
+        }
+
+        .task-status select:focus {
+            border-color: #fff; /* Lime Green on focus */
+        }
+
+        /* Task filtering and sorting styles */
+        .filter-sort {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .filter-sort label {
+            color: #ffffff; /* White text */
+            font-weight: bold;
+        }
+
+        .filter-sort select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ffffff; /* White border */
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+            color: #ffffff; /* White text */
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-sort select:focus {
+            border-color: #fff; /* Lime Green on focus */
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: rgba(255, 255, 255, 0.8); /* Dark brown */
+            color: #000000; /* Black text */
+            text-align: center;
+            padding: 5px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+        }
+
+
+       
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+
+
+         <!-- Back Button -->
+          <div class="back-button">
+            <a href="Dashboard.html">
+                <i class='bx bx-arrow-back'></i>
+                <span>Back to Main Menu</span>
+            </a>
+
+          </div>
+
+        <!-- Centered Title and Navigation Links -->
+        <div class="header-center">
+            <h1>Task and To-Do List Management</h1>
+            <nav>
+                <ul>
+                    <li><a href="#create-task">Create Task</a></li>
+                    <li><a href="#task-list">Task List</a></li>
+                    <li><a href="#filter-sort">Filter & Sort</a></li>
+                </ul>
+            </nav>
+        </div>
+       
+
+        <!-- Account Button -->
+        <div class="account-button" onclick="toggleDropdown()">
+            <i class='bx bxs-user-circle'></i>
+            <span>Account</span>
+        </div>
+    </header>
+    
+    <main>
+        <section id="create-task" class="section">
+            <h2>Create and Assign Task</h2>
+            <div class="container">
+                <form class="task-form" id="taskForm">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea>
+                
+                    <label for="due_date">Due Date:</label>
+                    <input type="date" id="due_date" name="due_date">
+                
+                    <label for="project">Project:</label>
+                    <select id="project" name="project_id">
+                        <!-- Project options -->
+                    </select>
+                
+                    <label for="assigned_to">Assign To:</label>
+                    <select id="assigned_to" name="assigned_to">
+                        <!-- User options -->
+                    </select>
+                
+                    <label for="priority">Priority:</label>
+                    <select id="priority" name="priority">
+                        <option value="low" selected>Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                
+                    <button type="submit">Create Task</button>
+                </form>
+                
+                
+            </div>
+        </section>
+
+        <section id="task-list" class="section">
+            <h2>Task List</h2>
+            <div class="container">
+                <div class="task-status">
+                    <label for="taskStatusFilter">Filter by Status:</label>
+                    <select id="taskStatusFilter" name="taskStatusFilter">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="task-list" id="taskList">
+                    <!-- Dynamic tasks will be displayed here -->
+                </div>
+            </div>
+        </section>
+        
+        <section id="filter-sort" class="section">
+            <h2>Filter & Sort Tasks</h2>
+            <div class="container">
+                <div class="filter-sort">
+                    <label for="sortBy">Sort By:</label>
+                    <select id="sortBy" name="sortBy">
+                        <option value="due-date-asc">Due Date (Ascending)</option>
+                        <option value="due-date-desc">Due Date (Descending)</option>
+                        <option value="priority-asc">Priority (Low to High)</option>
+                        <option value="priority-desc">Priority (High to Low)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="Logo.png" alt="Logo">
+        </div>
+
+        <!-- Separator Line -->
+        <div class="separator"></div>
+
+        <!-- Dashboard Link -->
+        <a href="Dashboard.html">
+            <i class='bx bxs-dashboard'></i>
+            <span>Dashboard</span>
+        </a>
+
+        <!-- Groups Management Link -->
+        <a href="Group-Management.html">
+            <i class='bx bxs-user'></i>
+            <span>Groups</span>
+        </a>
+
+        <!-- Projects Management Link -->
+        <a href="Projects.html">
+            <i class='bx bxs-folder'></i>
+            <span>Projects</span>
+        </a>
+
+        <!-- Tasks Management Link -->
+        <a href="To-Do-List.html">
+            <i class='bx bx-task'></i>
+            <span>Tasks</span>
+        </a>
+
+        <!-- Calendar Link -->
+        <a href="Calendar.html">
+            <i class='bx bx-calendar'></i>
+            <span>Calendar</span>
+        </a>
+
+        <!-- Settings Link -->
+        <a href="settings2.html">
+            <i class='bx bxs-cog'></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <!-- Dropdown Menu -->
+        <div class="dropdown-menu" id="dropdown-menu" aria-expanded="false">
+            <div class="user-info">
+                <p>Name: <span id="user-name">John Doe</span></p>
+                <p>Email: <span id="user-email">johndoe@example.com</span></p>
+                <!-- Active Status -->
+                <p class="status">
+                    <span class="status-dot"></span> Online
+                </p>
+            </div>
+                <p class="role">Role: <span id="user-role">Admin</span></p>
+                
+                 <!-- Log Out Button -->
+                 <button class="logout-button" onclick="logout()">
+                    <i class='bx bx-log-out'></i> Log Out
+                </button>
+            
+        </div>
+
+
+
+
+        
+</div>
+
+    </main>
+
+        
+    <script>
+
+        // Get the header element
+    const header = document.querySelector('header');
+// Store the initial offset of the header
+let initialOffset = header.offsetTop;
+// Function to handle scroll events
+function handleScroll() {
+    // Get the current scroll position
+    const scrollPosition = window.scrollY;
+    // Update the header's top position based on the scroll position
+    header.style.top = `${initialOffset + scrollPosition}px`;
+}
+// Add a scroll event listener to the window
+window.addEventListener('scroll', handleScroll);
+
+        // Toggle Dropdown Menu
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown-menu');
+        const isExpanded = dropdown.getAttribute('aria-expanded') === 'true';
+        dropdown.classList.toggle('active');
+        dropdown.setAttribute('aria-expanded', !isExpanded);
+        }
+
+        // Function to fetch and display user profile
+        async function fetchUserProfile() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/user-profile-drop/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Use JWT token for authentication
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user profile');
+        }
+
+        const data = await response.json();
+
+        // Update the dropdown with user data
+        document.getElementById('user-name').textContent = `${data.first_name} ${data.last_name}`;
+        document.getElementById('user-email').textContent = data.email;
+        document.getElementById('user-role').textContent = data.role || 'User'; // Default to 'User' if role is not provided
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+
+        // Display an error message in the dropdown
+        document.getElementById('user-name').textContent = 'Error loading user data';
+        document.getElementById('user-email').textContent = 'Please try again later';
+        document.getElementById('user-role').textContent = 'User'; // Default role
+    }
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', fetchUserProfile);
+
+// Function to load the tasks assigned to the user and display them in a list below the create form
+
+function loadUserTasks() {
+    fetch('http://127.0.0.1:8000/tasks/get-assigned-tasks/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+            'Accept': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(tasks => {
+        const taskListDiv = document.getElementById('taskList');
+        taskListDiv.innerHTML = ''; // Clear existing tasks
+
+        tasks.forEach(task => {
+            const taskDiv = document.createElement('div');
+            taskDiv.className = 'task';
+            taskDiv.innerHTML = `
+                <h3>${task.title}</h3>
+                <p>Description: ${task.description || 'No description provided'}</p>
+
+                <label for="due_date_${task.id}">Due Date:</label>
+                <input type="date" id="due_date_${task.id}" value="${new Date(task.due_date).toISOString().split('T')[0]}" />
+
+                <label for="status_${task.id}">Status:</label>
+                <select id="status_${task.id}">
+                    <option value="pending" ${task.status === 'pending' ? 'selected' : ''}>Pending</option>
+                    <option value="in_progress" ${task.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                    <option value="completed" ${task.status === 'completed' ? 'selected' : ''}>Completed</option>
+                </select>
+
+                <label for="priority_${task.id}">Priority:</label>
+                <select id="priority_${task.id}">
+                    <option value="low" ${task.priority === 'low' ? 'selected' : ''}>Low</option>
+                    <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>Medium</option>
+                    <option value="high" ${task.priority === 'high' ? 'selected' : ''}>High</option>
+                </select>
+
+                <button onclick="updateTask(${task.id})">Save Changes</button>
+            `;
+            taskListDiv.appendChild(taskDiv);
+        });
+    })
+    .catch(error => {
+        console.error('Error loading tasks:', error);
+        taskListDiv.innerHTML = '<p>Error loading tasks. Please try again later.</p>';
+    });
+}
+
+// Function to update a task's details
+
+function updateTask(taskId) {
+    const dueDate = document.getElementById(`due_date_${taskId}`).value;
+    const status = document.getElementById(`status_${taskId}`).value;
+    const priority = document.getElementById(`priority_${taskId}`).value;
+
+    fetch(`http://127.0.0.1:8000/tasks/update-task/${taskId}/`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            due_date: dueDate,
+            status: status,
+            priority: priority
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Update successful:', data);
+        alert('Task updated successfully!');
+    })
+    .catch(error => {
+        console.error('Error updating task:', error);
+        alert('Failed to update task. See console for more details.');
+    });
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadUserTasks(); // Call this function to load tasks when the page is loaded
+});
+
+
+// populating the dropdown with projects and users
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and populate the project dropdown
+    fetch('http://127.0.0.1:8000/projects/get-all-projects/', {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        'Accept': 'application/json',
+    }
+})
+    .then(response => response.json())
+    .then(projects => {
+        const projectSelect = document.getElementById('project');
+        projects.forEach(project => {
+            const option = new Option(project.name, project.id);
+            projectSelect.add(option);
+        });
+    })
+    .catch(error => console.error('Error loading projects:', error));
+
+    // Fetch and populate the user dropdown
+    fetch('http://127.0.0.1:8000/api/users/', {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        'Accept': 'application/json',
+    }
+})
+    .then(response => response.json())
+    .then(users => {
+        const userSelect = document.getElementById('assigned_to');
+        users.forEach(user => {
+            const option = new Option(user.username, user.id);
+            userSelect.add(option);
+        });
+    })
+    .catch(error => console.error('Error loading users:', error));
+});
+
+//Create task
+
+document.getElementById('taskForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const taskData = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        due_date: formData.get('due_date'),
+        project: formData.get('project_id'),
+        assigned_to: formData.get('assigned_to'),
+        priority: formData.get('priority')  // Include priority in the task data
+    };
+
+    fetch('http://127.0.0.1:8000/tasks/create-task/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify(taskData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Task Created Successfully!');
+        // Optionally update the task list on the page
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Failed to create task. See console for more details.');
+    });
+});
+
+
+
+// get all tasks on load
+function loadTasks() {
+    fetch('http://127.0.0.1:8000/tasks/', { // Ensure the URL is correct for your API
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
+    .then(response => response.json())
+    .then(tasks => {
+        tasks.forEach(task => {
+            addTaskToList(task);
+        });
+    })
+    .catch(error => {
+        console.error('Error loading tasks:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadTasks(); // Load tasks when the page is ready
+});
+
+
+
+
+        // Logout Function
+        function logout() {
+        // Redirect to the login page
+        window.location.href = '/Frontend/Login%20/Login.html';
+    }
+    </script>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; ProjectPat. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+</body>
+</html>
+

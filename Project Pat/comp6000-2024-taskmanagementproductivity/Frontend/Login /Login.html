@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Pat</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/css/pikaday.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <!-- Login Form -->
+    <div class="wrapper">
+        <form id="login-form">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" id="login-username" name="username" placeholder="Username" required>
+                <i class='bx bxs-user-circle'></i>
+            </div>
+            <div class="input-box">
+                <i class='bx bxs-lock-alt lock-icon'></i>
+                <input type="password" id="login-password" name="password" placeholder="Password" required>
+            </div>
+            <!-- Show Password Option (between password field and Remember Me) -->
+            <div class="toggle-password-container">
+                <label for="toggle-password">
+                    <i class='bx bx-show eye-icon' id="toggle-password"></i> Show Password
+                </label>
+            </div>
+            
+            <!-- Remember Me and Forgot Password -->
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#" id="show-forgot-password">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="register-link">
+                <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+            </div>
+        </form>
+
+
+<!-- Error Message -->
+<div id="error-message" class="error-message">
+    <i class='bx bxs-error-circle error-icon'></i>
+    <p id="error-text">Oops! Something went wrong.</p>
+</div>
+
+
+
+        <!-- Forgot Password Form -->
+        <form id="forgot-password-form" style="display: none;">
+            <h1>Forgot Password</h1>
+            <div class="input-box">
+                <input type="text" id="forgot-username" placeholder="Enter your username" required>
+                <i class='bx bxs-user-circle'></i>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+            <div class="register-link">
+                <p>Remember your password? <a href="#" id="show-login">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="Register.js"></script>
+    <script src="Login.js"></script>
+    <script src="forgot-password.js"></script>
+    <script src="form-switch.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+</body>
+
+</html>

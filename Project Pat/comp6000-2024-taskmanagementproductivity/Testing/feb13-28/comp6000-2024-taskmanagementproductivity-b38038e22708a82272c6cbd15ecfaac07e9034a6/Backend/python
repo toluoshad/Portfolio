@@ -1,0 +1,19 @@
+System check identified no issues (0 silenced).
+
+Setting up test environment...
+Test user created: testuser (test@email.com)
+
+Running test: test_create_user
+Response: {'data': OrderedDict([('createUser', {'user': {'id': '2', 'username': 'newuser', 'email': 'newuser@email.com'}})])}
+
+Setting up test environment...
+Test user created: testuser (test@email.com)
+
+Running test: test_delete_user
+Response: {'data': OrderedDict([('deleteUser', {'success': True})])}
+
+Setting up test environment...
+Test user created: testuser (test@email.com)
+
+Running test: test_update_user
+Response: {'data': OrderedDict([('updateUser', {'user': {'id': '1', 'email': 'updated@email.com'}})])}
